@@ -4,6 +4,8 @@ const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 })
+let proximoId = 1;
+let alunos = [];
 
 function mostrarMenu() {
     console.log("\n======================");
@@ -48,7 +50,13 @@ function cadastrarAluno(){
                         mostrarMenu();
                         return;
                     }
-                    
+                    let aluno = {
+                        id: proximoId,
+                        nome: nome,
+                        idade: idade,
+                        turma: turma,
+                        nota: nota
+                    };                                       
                 })
             })
         })
