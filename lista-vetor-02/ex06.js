@@ -1,19 +1,14 @@
-const nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const numsPar = [];
-const numsImpar = [];
+const nums = [1, 2, 3];
+const nums2 = [10, 20, 30];
+const numsnovo = [];
 let j = 0;
-let k = 0;
 
 
 for(let i = 0; i < nums.length; i++){
-    if((nums[i] % 2)=== 0){
-        numsPar[j] = nums[i];
-        j++
-    } 
-    if((nums[i] % 2)=== 1){
-        numsImpar[k] = nums[i];
-        k++
-    }
+    numsnovo[j] = nums[i] 
+    j++
+    numsnovo[j] = nums2[i]
+    j++
 } 
-console.log(numsPar);
-console.log(numsImpar);
+console.log(numsnovo)
+
