@@ -47,6 +47,7 @@ function listarAluno(){
         
 
     }
+    mostrarMenu();
 }
 
 function cadastrarAluno(){
@@ -88,3 +89,6 @@ function cadastrarAluno(){
         })
     })
 }
+
+
+mostrarMenu();
