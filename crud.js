@@ -29,6 +29,25 @@ function mostrarMenu() {
         }
     })
 }
+function listarAluno(){
+    console.log("Listar Aluno");
+
+    if(alunos.legth === 0){
+        console.log("Nenhum aluno cadastrado");
+        mostrarMenu();
+        return;
+    }
+
+    for(let i = 0; i < alunos.length; i++){
+        console.log("\nID: " + alunos[i].id);
+        console.log("Nome: " + alunos[i].nome);
+        console.log("Idade: " + alunos[i].idade);
+        console.log("Turma: " + alunos[i].turma);
+        console.log("Nota: " + alunos[i].nota);
+        
+
+    }
+}
 
 function cadastrarAluno(){
     console.log("Cadastrar Aluno");
