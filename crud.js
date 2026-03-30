@@ -26,6 +26,8 @@ function mostrarMenu() {
             cadastrarAluno();
         } else if(opcao === "2"){
             listarAluno();
+        }else if (opcao === "3"){
+            buscarAlunoPorId();
         }
     })
 }
@@ -88,6 +90,37 @@ function cadastrarAluno(){
             })
         })
     })
+} 
+function buscarAlunoPorId(){
+    console.log("Buscar aluno por id");
+
+    rl.question("Digite o ID do aluno: ", (id) => {
+        id = Number(id);
+
+        let aluno = encontrarAlunoPorId(id);
+
+        if(aluno === null){
+            console.log("Aluno não encontrado");
+            mostrarMenu();
+            return;
+        }
+        console.log("\nAluno Encontrado");
+        console.log("\nID: " + aluno.id);
+        console.log("Nome: " + aluno.nome);
+        console.log("Idade: " + aluno.idade);
+        console.log("Turma: " + aluno.turma);
+        console.log("Nota: " + aluno.nota);
+    })
+}
+
+function encontrarAlunoPorId(id){
+for(let i= 0; i < alunos.length; i++){
+    if(alunos[i].id === id){
+        return alunos[i];
+    }
+}
+
+return null;
 }
 
 
