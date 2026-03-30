@@ -56,7 +56,9 @@ function cadastrarAluno(){
                         idade: idade,
                         turma: turma,
                         nota: nota
-                    };                                       
+                    };   
+                    alunos.push(aluno);
+                    proximoId++;
                 })
             })
         })
