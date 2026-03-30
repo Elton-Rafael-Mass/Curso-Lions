@@ -42,6 +42,12 @@ function cadastrarAluno(){
                         mostrarMenu();
                         return;
                     } 
+
+                    if(idade <= 0 ||nota < 0 || nota > 10) {
+                        console.log("ERRO: Idade ou nota inválida");
+                        mostrarMenu();
+                        return;
+                    }
                     
                 })
             })
