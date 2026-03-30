@@ -24,6 +24,8 @@ function mostrarMenu() {
     rl.question("Escolha uma opção ", (opcao) => {
         if (opcao === "1") {
             cadastrarAluno();
+        } else if(opcao === "2"){
+            listarAluno();
         }
     })
 }
@@ -59,6 +61,9 @@ function cadastrarAluno(){
                     };   
                     alunos.push(aluno);
                     proximoId++;
+
+                    console.log("Aluno Cadastrado com sucesso")
+                    mostrarMenu(); 
                 })
             })
         })
