@@ -35,10 +35,34 @@ function mostrarMenu() {
             removerAluno();
         } else if (opcao === "6") {
             mostrarAlunosAprovados();
+        } else if (opcao === "7") {
+            mostrarAlunosReprovados();
+        } else if (opcao === "0"){
+            console.log("Saindo...")
+            rl.close();
         }
 
     })
 }
+
+function mostrarAlunosReprovados(){
+    console.log("Mostrar Alunos Reprovados")
+    let nenhum = true;
+
+    for(let i = 0; i < alunos.length; i++){
+        if(alunos[i].nota < 7){
+            console.log(alunos[i].nome + " Está reprovado!");
+            nenhum = false
+        } 
+        if(nenhum){
+            console.log("Nenhum aluno reprovado!")
+        }
+        
+
+    }
+    mostrarMenu();
+}
+
 
 
 function mostrarAlunosAprovados(){
