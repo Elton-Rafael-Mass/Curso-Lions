@@ -31,8 +31,50 @@ function mostrarMenu() {
             buscarAlunoPorId();
         } else if (opcao === "4") {
             atualizarAluno();
+        } else if (opcao === "5") {
+            removerAluno();
+        } else if (opcao === "6") {
+            mostrarAlunosAprovados();
         }
 
+    })
+}
+
+
+function mostrarAlunosAprovados(){
+    console.log("Mostrar Alunos Aprovados")
+    let nenhum = true;
+
+    for(let i = 0; i < alunos.length; i++){
+        if(alunos[i].nota >= 7){
+            console.log(alunos[i].nome + " Está Aprovado!");
+            nenhum = false
+        } 
+        if(nenhum){
+            console.log("Nenhum aluno aprovado!")
+        }
+        
+
+    }
+    mostrarMenu();
+}
+
+function removerAluno() {
+    console.log(" Remover Aluno");
+
+    rl.question("Digite o ID do aluno: ", (id) => {
+        id = Number(id);
+
+        for(let i = 0; i < alunos.length; i++){
+            if(alunos[i].id === id){
+            alunos.splice(i,1)
+            console.log("removido com sucesso");
+            mostrarMenu();
+            return;
+            }
+        }
+        console.log("aluno não encontrado");
+             mostrarMenu();
     })
 }
 
@@ -43,11 +85,11 @@ function atualizarAluno() {
         id = Number(id);
         let aluno = encontrarAlunoPorId(id);
 
-        if(aluno === null){
+        if (aluno === null) {
             console.log("Aluno não encontrado");
             mostrarMenu();
             return;
-        } 
+        }
         rl.question("Digite um novo nome: ", (novoNome) => {
             rl.question("Digite a nova idade: ", (novaIdade) => {
                 rl.question("Digite a sua nova turma: ", (novaTurma) => {
@@ -55,11 +97,24 @@ function atualizarAluno() {
                         novaIdade = Number(novaIdade);
                         novaNota = Number(novaNota);
 
-                        if(novo === "" || novaIdade === "" || novaTurma === "" || novaNota === "" ){
+                        if (novo === "" || novaIdade === "" || novaTurma === "" || novaNota === "") {
                             console.log("Todos os dados precisam ser preenchidos");
                             mostrarMenu();
                             return;
                         }
+                        if (novaIdade <= 0 || novaNota < 0 || novaNota > 10) {
+                            console.log("Idade ou nota inválida");
+                            mostrarMenu();
+                            return;
+                        }
+
+                        aluno.nome = novoNome;
+                        aluno.idade = novaIdade;
+                        aluno.turma = novaTurma;
+                        aluno.nota = novaNota;
+
+                        console.log("atualizado com sucesso");
+                        mostrarMenu();
                     })
                 })
             })
@@ -78,7 +133,7 @@ function listarAluno() {
         return;
     }
 
-    for(let i = 0; i < alunos.length; i++) {
+    for (let i = 0; i < alunos.length; i++) {
         console.log("\nID: " + alunos[i].id);
         console.log("Nome: " + alunos[i].nome)
         console.log("Idade: " + alunos[i].idade)
@@ -99,7 +154,7 @@ function cadastrarAluno() {
                     idade = Number(idade);
                     nota = Number(nota);
 
-                    if(nome === "" || idade === "" || turma === "" || nota === "") {
+                    if (nome === "" || idade === "" || turma === "" || nota === "") {
                         console.log("ERRO: Não preencheu todas as infos");
                         mostrarMenu();
                         return;
@@ -123,9 +178,9 @@ function cadastrarAluno() {
                     proximoId++;
 
                     console.log("Aluno Cadastrado com sucesso")
-                    mostrarMenu(); 
+                    mostrarMenu();
                 })
-            } )
+            })
         })
     })
 }
@@ -156,7 +211,7 @@ function buscarAlunoPorId() {
 }
 
 function encontrarAlunoPorId(id) {
-    for(let i = 0; i < alunos.length; i++) {
+    for (let i = 0; i < alunos.length; i++) {
         if (alunos[i].id === id) {
             return alunos[i];
         }
