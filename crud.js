@@ -32,23 +32,8 @@ function mostrarMenu() {
             mostrarAlunosAprovados()
         }
     })
-function mostrarAlunosAprovados(){
-    console.log("Mostrar Alunos Aprovados")
-    let nenhum = true;
+    
 
-    for(let i = 0; i < alunos.length; i++){
-        if(alunos[i].nota >= 7){
-            console.log(alunos[i].nome + " Está Aprovado!");
-            nenhum = false
-        } 
-        if(nenhum){
-            console.log("Nenhum aluno aprovado!")
-        }
-        
-
-    }
-    mostrarMenu();
-}
 }
 function listarAluno(){
     console.log("Listar Aluno");
@@ -140,6 +125,23 @@ for(let i= 0; i < alunos.length; i++){
 }
 
 return null;
+}
+function mostrarAlunosAprovados(){
+    console.log("Mostrar Alunos Aprovados")
+    let nenhum = true;
+
+    for(let i = 0; i < alunos.length; i++){
+        if(alunos[i].nota >= 7){
+            console.log(alunos[i].nome + " Está Aprovado!");
+            nenhum = false
+        } 
+        if(nenhum){
+            console.log("Nenhum aluno aprovado!")
+        }
+        
+
+    }
+    mostrarMenu();
 }
 
 
