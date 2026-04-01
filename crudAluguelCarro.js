@@ -1,0 +1,382 @@
+const readline = require("readline");
+
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+})
+
+let carros = [];
+let proximoIdCarro = 1;
+
+let clientes = [];
+let proximoIdCliente = 1;
+
+let alugueis = [];
+let proximoIdAluguel = 1;
+
+function mostrarMenu() {
+    console.log("\n========================");
+    console.log("SISTEMA DE LOCAÇÂO DE VEICULOS");
+    console.log("========================");
+    console.log("CARROS");
+    console.log("1 - Cadastrar Carro");
+    console.log("2 - Listar Carros");
+    console.log("3 - Buscar Carro por ID ");
+    console.log("4 - Atualizar Carro");
+    console.log("5 - Remover Carro");
+    console.log("CLIENTES");
+    console.log("6 - Cadastrar Cliente");
+    console.log("7 - Listar Clientes");
+    console.log("8 - Buscar Cliente por ID");
+    console.log("9 - Atualizar Cliente");
+    console.log("10 - Remover Cliente");
+    console.log("=======================");
+    console.log("CARROS");
+    console.log("11 - Realizar Aluguel");
+    console.log("12 - Devolver Carro");
+    console.log("13 - Listar Alugueis Ativos");
+    console.log("14 - Listar Histórico (Finalizados)");
+        
+
+    rl.question("Escolha uma opção: ", (opcao) => {
+        if (opcao === "1") {
+            cadastrarCarro();
+        } else if (opcao === "2") {
+            listarCarros();
+        } else if (opcao === "3") {
+            buscarCarroPorId();
+        } else if (opcao === "4") {
+            atualizarCarro();
+        } else if (opcao === "5") {
+            removerCarro();
+        } else if (opcao === "6") {
+            cadastrarClente();
+        } else if (opcao === "7") {
+            listarClientes();
+        } else if (opcao === "8") {
+            buscarClientePorId();
+        } else if (opcao === "9") {
+            atualizarCliente();
+        } else if (opcao === "10") {
+            removerCliente(); 
+        } else if (opcao === "11") {
+            realizarAluguel(); 
+        } else if (opcao === "0"){
+            console.log("Saindo...")
+            rl.close();
+        }
+
+    })
+}
+
+function realizarAluguel(){
+    console.log("Cadastrar Carro");
+
+    rl.question("Digite o Id do cliente: ", (IdCliente) => {
+        rl.question("Digite o Id do carro ", (IdCarro) => {
+            rl.question("Quantos dias será alugado: ", (dias) => {
+               dias = Number(dias);
+            
+               for(let i = 0; i < clientes.length; i++){
+                if(IdCliente === clientes[i].id){
+                    
+                }
+               }
+
+
+            })
+        })
+    })
+
+}
+
+function removerCliente() {
+    console.log(" Remover Cliente");
+
+    rl.question("Digite o ID do Cliente: ", (id) => {
+        id = Number(id);
+
+        for(let i = 0; i < clientes.length; i++){
+            if(clientes[i].id === id){
+            clientes.splice(i,1)
+            console.log("removido com sucesso");
+            mostrarMenu();
+            return;
+            }
+        }
+        console.log("Cliente não encontrado");
+             mostrarMenu();
+    })
+}
+
+function atualizarCliente() {
+    console.log(" Atualizar Cliente");
+
+    rl.question("Digite o ID do Cliente: ", (id) => {
+        id = Number(id);
+        let cliente = encontrarClientePorId(id);
+
+        if (cliente === null) {
+            console.log("cliente não encontrado");
+            mostrarMenu();
+            return;
+        }
+        rl.question("Digite o nome do cliente: ", (novoNome) => {
+            rl.question("Digite o novo CPF do cliente: ", (novoCPF) => {
+                rl.question("Digite o novo telefone do cliente: ", (novoTelefone) => {
+                    
+
+                        if (novoNome === "" || novoCPF === "" || novoTelefone === "") {
+                            console.log("Todos os dados precisam ser preenchidos");
+                            mostrarMenu();
+                            return;
+                        }
+                        
+
+                        cliente.nome = novoNome;
+                        cliente.cpf = novoCPF;
+                        cliente.telefone = novoTelefone;
+
+                        console.log("atualizado com sucesso");
+                        mostrarMenu();
+                    
+                })
+            })
+        })
+    })
+
+
+}
+
+function encontrarClientePorId(id) {
+    for (let i = 0; i < clientes.length; i++) {
+        if (clientes[i].id === id) {
+            return clientes[i];
+        }
+    }
+
+    return null;
+}
+
+function buscarClientePorId() {
+    console.log("Buscar cliente por id");
+
+    rl.question("Digite o ID do Cliente: ", (id) => {
+        id = Number(id);
+
+        let cliente = encontrarClientePorId(id);
+
+        if (cliente === null) {
+            console.log("cliente não encontrado");
+            mostrarMenu();
+            return;
+        }
+
+        console.log("\nCliente Encontrado");
+        console.log("ID: " + cliente.id);
+        console.log("Nome: " + cliente.nome)
+        console.log("CPF: " + cliente.cpf)
+        console.log("Telefone: " + cliente.telefone)
+
+        mostrarMenu()
+    })
+}
+
+function listarClientes() {
+    console.log("Listar Clientes");
+
+    if (clientes.length === 0) {
+        console.log("Nenhum cliente cadastrado");
+        mostrarMenu();
+        return;
+    }
+
+    for (let i = 0; i < clientes.length; i++) {
+        console.log("\nID: " + clientes[i].id);
+        console.log("Nome: " + clientes[i].nome)
+        console.log("Idade: " + clientes[i].cpf)
+        console.log("Turma: " + clientes[i].telefone)
+    }
+
+    mostrarMenu();
+}
+
+function cadastrarClente(){
+    console.log("Cadastrar Cliente");
+
+    rl.question("Digite o nome do cliente: ", (nome) => {
+        rl.question("Digite o CPF do cliente: ", (cpf) => {
+            rl.question("Digite o telefone do cliente: ", (telefone) => {
+                
+                        if (nome === "" || cpf === "" || telefone === "") {
+                            console.log("ERRO: Não preencheu todas as infos");
+                            mostrarMenu();
+                            return;
+                        }
+                        let cliente = {
+                          id: proximoIdCliente,
+                          nome: nome,
+                          cpf: cpf,
+                          telefone: telefone
+                        };
+
+                        clientes.push(cliente);
+                        proximoIdCliente++;
+
+            })
+        })
+    })
+}
+
+
+function removerCarro() {
+    console.log(" Remover Carro");
+
+    rl.question("Digite o ID do Carro: ", (id) => {
+        id = Number(id);
+
+        for(let i = 0; i < carros.length; i++){
+            if(carros[i].id === id){
+            carros.splice(i,1)
+            console.log("removido com sucesso");
+            mostrarMenu();
+            return;
+            }
+        }
+        console.log("Carro não encontrado");
+             mostrarMenu();
+    })
+}
+
+function atualizarCarro() {
+    console.log(" Atualizar Carro");
+
+    rl.question("Digite o ID do Carro: ", (id) => {
+        id = Number(id);
+        let carro = encontrarCarroPorId(id);
+
+        if (carro === null) {
+            console.log("Carro não encontrado");
+            mostrarMenu();
+            return;
+        }
+        rl.question("Digite o novo modelo: ", (novoModelo) => {
+            rl.question("Digite a nova placa: ", (novaPlaca) => {
+                rl.question("Digite o novo ano: ", (novoAno) => {
+                    rl.question("Está disponível? ", (disponivel) => {
+                        novoAno = Number(novoAno);
+                        if(disponivel === "n"){
+                        
+                        }
+                        if (novoModelo === "" || novaPlaca === "" || novoAno === "" || disponivel === "") {
+                            console.log("Todos os dados precisam ser preenchidos");
+                            mostrarMenu();
+                            return;
+                        }
+                        
+
+                        carro.modelo = novoModelo;
+                        carro.placa = novaPlaca;
+                        carro.ano = novoAno;
+                        carro.dispo = disponivel;
+
+                        console.log("atualizado com sucesso");
+                        mostrarMenu();
+                    })
+                })
+            })
+        })
+    })
+
+
+}
+
+function buscarCarroPorId() {
+    console.log("Buscar Carro por id");
+
+    rl.question("Digite o ID do Carro: ", (id) => {
+        id = Number(id);
+
+        let carro = encontrarCarroPorId(id);
+
+        if (carro === null) {
+            console.log("Carro não encontrado");
+            mostrarMenu();
+            return;
+        }
+
+        console.log("\nCarro Encontrado");
+        console.log("ID: " + carro.id);
+        console.log("Nome: " + carro.modelo)
+        console.log("Idade: " + carro.placa)
+        console.log("Turma: " + carro.ano)
+       
+
+        mostrarMenu()
+    })
+}
+
+function encontrarCarroPorId(id) {
+    for (let i = 0; i < carros.length; i++) {
+        if (carros[i].id === id) {
+            return carros[i];
+        }
+    }
+
+    return null;
+}
+
+function listarCarros(){
+    console.log("Listar Carros")
+
+    if (carros.length === 0) {
+        console.log("Nenhum Carro cadastrado");
+        mostrarMenu();
+        return;
+    }
+    for(let i = 0; i < carros.length; i++){
+        console.log("\nID: " + carros[i].id);
+        console.log("Modelo: " + carros[i].modelo)
+        console.log("Placa: " + carros[i].placa)
+        console.log("Ano: " + carros[i].ano)
+    }
+    mostrarMenu();
+}
+
+function cadastrarCarro(){
+    console.log("Cadastrar Carro");
+
+    rl.question("Digite o modelo do carro: ", (modelo) => {
+        rl.question("Digite a placa do carro: ", (placa) => {
+            rl.question("Digite o ano do carro: ", (ano) => {
+                rl.question("Digite o preço por dia do carro: ", (precoDia) => {
+                        ano = Number(ano);
+                        precoDia = Number(precoDia);
+                        dispo = true;
+                        if (modelo === "" || placa === "" || ano === "" || precoDia === "" || dispo === "") {
+                            console.log("ERRO: Não preencheu todas as infos");
+                            mostrarMenu();
+                            return;
+                        }
+                        let carro = {
+                            id: proximoIdCarro,
+                            modelo: modelo,
+                            placa: placa,
+                            ano: ano,
+                            precoDia: precoDia,
+                            disponivel: dispo
+                        };
+
+                        carros.push(carro);
+                        proximoIdCarro++;
+                        
+                        console.log("Carro cadastrado com sucesso!");
+                        mostrarMenu();
+
+                })
+            })
+        })
+    })
+}
+
+mostrarMenu()
