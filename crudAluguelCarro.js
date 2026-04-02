@@ -31,7 +31,7 @@ function mostrarMenu() {
     console.log("9 - Atualizar Cliente");
     console.log("10 - Remover Cliente");
     console.log("=======================");
-    console.log("CARROS");
+    console.log("ALUGUEL");
     console.log("11 - Realizar Aluguel");
     console.log("12 - Devolver Carro");
     console.log("13 - Listar Alugueis Ativos");
@@ -50,7 +50,7 @@ function mostrarMenu() {
         } else if (opcao === "5") {
             removerCarro();
         } else if (opcao === "6") {
-            cadastrarClente();
+            cadastrarCliente();
         } else if (opcao === "7") {
             listarClientes();
         } else if (opcao === "8") {
@@ -69,25 +69,61 @@ function mostrarMenu() {
     })
 }
 
-function realizarAluguel(){
-    console.log("Cadastrar Carro");
+function realizarAluguel() {
+    console.log("Realizar Aluguel");
 
-    rl.question("Digite o Id do cliente: ", (IdCliente) => {
-        rl.question("Digite o Id do carro ", (IdCarro) => {
+    rl.question("Digite o ID do cliente: ", (idCliente) => {
+        idCliente = Number(idCliente);
+        let cliente = encontrarClientePorId(idCliente);
+
+        if (cliente === null) {
+            console.log("Cliente não encontrado");
+            mostrarMenu();
+            return;
+        }
+
+        rl.question("Digite o ID do carro: ", (idCarro) => {
+            idCarro = Number(idCarro);
+            let carro = encontrarCarroPorId(idCarro);
+
+            if (carro === null) {
+                console.log("Carro não encontrado");
+                mostrarMenu();
+                return;
+            }
+
+            if (carro.dispo === false) {
+                console.log("Carro não está disponível");
+                mostrarMenu();
+                return;
+            }
+
             rl.question("Quantos dias será alugado: ", (dias) => {
-               dias = Number(dias);
-            
-               for(let i = 0; i < clientes.length; i++){
-                if(IdCliente === clientes[i].id){
-                    
-                }
-               }
+                dias = Number(dias);
 
+                let total = dias * carro.precoDia;
 
-            })
-        })
-    })
+                let aluguel = {
+                    id: proximoIdAluguel,
+                    idCliente: idCliente,
+                    idCarro: idCarro,
+                    dias: dias,
+                    total: total,
+                    status: "ativo"
+                };
 
+                alugueis.push(aluguel);
+                proximoIdAluguel++;
+
+                carro.disponivel = false;
+
+                console.log("Aluguel realizado com sucesso!");
+                console.log("Total: R$ " + total);
+
+                mostrarMenu();
+            });
+        });
+    });
 }
 
 function removerCliente() {
@@ -201,7 +237,7 @@ function listarClientes() {
     mostrarMenu();
 }
 
-function cadastrarClente(){
+function cadastrarCliente(){
     console.log("Cadastrar Cliente");
 
     rl.question("Digite o nome do cliente: ", (nome) => {
@@ -222,11 +258,13 @@ function cadastrarClente(){
 
                         clientes.push(cliente);
                         proximoIdCliente++;
+                        mostrarMenu();
 
             })
         })
     })
 }
+
 
 
 function removerCarro() {
@@ -263,12 +301,12 @@ function atualizarCarro() {
         rl.question("Digite o novo modelo: ", (novoModelo) => {
             rl.question("Digite a nova placa: ", (novaPlaca) => {
                 rl.question("Digite o novo ano: ", (novoAno) => {
-                    rl.question("Está disponível? ", (disponivel) => {
+                   
                         novoAno = Number(novoAno);
-                        if(disponivel === "n"){
+                   
                         
-                        }
-                        if (novoModelo === "" || novaPlaca === "" || novoAno === "" || disponivel === "") {
+                        
+                        if (novoModelo === "" || novaPlaca === "" || novoAno === "") {
                             console.log("Todos os dados precisam ser preenchidos");
                             mostrarMenu();
                             return;
@@ -278,11 +316,10 @@ function atualizarCarro() {
                         carro.modelo = novoModelo;
                         carro.placa = novaPlaca;
                         carro.ano = novoAno;
-                        carro.dispo = disponivel;
 
                         console.log("atualizado com sucesso");
                         mostrarMenu();
-                    })
+                    
                 })
             })
         })
@@ -364,7 +401,7 @@ function cadastrarCarro(){
                             placa: placa,
                             ano: ano,
                             precoDia: precoDia,
-                            disponivel: dispo
+                            dispo: dispo
                         };
 
                         carros.push(carro);
