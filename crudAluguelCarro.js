@@ -61,10 +61,83 @@ function mostrarMenu() {
             removerCliente(); 
         } else if (opcao === "11") {
             realizarAluguel(); 
+        } else if (opcao === "12") {
+            devolverCarro(); 
+        } else if (opcao === "13") {
+            listarAlugueisAtivos(); 
+        } else if (opcao === "14") {
+            listarHistorico(); 
         } else if (opcao === "0"){
             console.log("Saindo...")
             rl.close();
         }
+
+    })
+}
+
+function listarHistorico(){
+    console.log("Listar Histórico");
+
+    if (alugueis.length === 0) {
+        console.log("Nenhum Aluguel cadastrado");
+        mostrarMenu();
+        return;
+    }
+    for(i = 0; i < alugueis.length; i++){
+        if(alugueis[i].status === "finalizado"){
+            console.log("Id do aluguel: ",alugueis[i].id);
+            console.log("ID do cliente: ",alugueis[i].idCliente);
+            console.log("Id do carro: ",alugueis[i].idCarro);
+            console.log("Preço por dia do aluguel: ",alugueis[i].dias);
+            console.log("Valor total: ",alugueis[i].total);
+            console.log("Status: ",alugueis[i].status)
+        }
+    }
+    mostrarMenu();
+}
+
+
+function listarAlugueisAtivos(){
+    console.log("Listar Alugueis Ativos")
+
+    if (alugueis.length === 0) {
+        console.log("Nenhum Aluguel cadastrado");
+        mostrarMenu();
+        return;
+    }
+    for(i = 0; i < alugueis.length; i++){
+        if(alugueis[i].status === "ativo"){
+            console.log("Id do aluguel: ",alugueis[i].id);
+            console.log("ID do cliente: ",alugueis[i].idCliente);
+            console.log("Id do carro: ",alugueis[i].idCarro);
+            console.log("Preço por dia do aluguel: ",alugueis[i].dias);
+            console.log("Valor total: ",alugueis[i].total);
+            console.log("Status: ",alugueis[i].status)
+        }
+    }
+    mostrarMenu();
+}
+function devolverCarro(){
+    console.log("Devolver Carro");
+
+    rl.question("Digite o Id do Aluguel", (idAluguel) => {
+        idAluguel = Number(idAluguel);
+        let aluguel = encontrarAlugueisPorId(idAluguel);
+        let carro = encontrarCarroPorId(aluguel.idCarro);
+     
+        if (aluguel === null) {
+            console.log("Aluguel não encontrado");
+            mostrarMenu();
+            return;
+        }
+        if(aluguel.status === "ativo"){
+            aluguel.status = "finalizado"
+        }
+        if(carro.dispo === false){
+            carro.dispo === true;
+        }
+        console.log("Carro devolvido!")
+        mostrarMenu();
 
     })
 }
@@ -115,7 +188,7 @@ function realizarAluguel() {
                 alugueis.push(aluguel);
                 proximoIdAluguel++;
 
-                carro.disponivel = false;
+                carro.dispo  = false;
 
                 console.log("Aluguel realizado com sucesso!");
                 console.log("Total: R$ " + total);
@@ -182,6 +255,16 @@ function atualizarCliente() {
     })
 
 
+}
+
+function encontrarAlugueisPorId(id) {
+    for (let i = 0; i < alugueis.length; i++) {
+        if (alugueis[i].id === id) {
+            return alugueis[i];
+        }
+    }
+
+    return null;
 }
 
 function encontrarClientePorId(id) {
@@ -264,8 +347,6 @@ function cadastrarCliente(){
         })
     })
 }
-
-
 
 function removerCarro() {
     console.log(" Remover Carro");
@@ -389,7 +470,7 @@ function cadastrarCarro(){
                 rl.question("Digite o preço por dia do carro: ", (precoDia) => {
                         ano = Number(ano);
                         precoDia = Number(precoDia);
-                        dispo = true;
+                        let dispo = true;
                         if (modelo === "" || placa === "" || ano === "" || precoDia === "" || dispo === "") {
                             console.log("ERRO: Não preencheu todas as infos");
                             mostrarMenu();
